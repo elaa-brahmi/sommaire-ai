@@ -39,15 +39,15 @@ const SummaryHeader = ({
     }
 export default function SummaryCard({summary}:{summary:any}){
     return(
-            <MotionDiv
-             variants={itemVariants}
-             initial="hidden"
-             animate="visible"
-             whileHover={{ scale:1.05,
-                transition:{duration:0.2
-                    ,ease:'easeOut'
-                }
-              }}>
+        <MotionDiv
+         variants={itemVariants as any}
+         initial="hidden"
+         animate="visible"
+         whileHover={{ scale:1.05,
+            transition:{duration:0.2
+                ,ease:'easeOut'
+            }
+          }}>
             <Card className="relative h-full">
                 <div className="absolute top-2 right-2">
                     <DeleteButton

@@ -25,7 +25,7 @@ export default function HeroSection(){
             
                
                     <MotionDiv
-                    variants={itemVariants}
+                    variants={itemVariants as any}
                      className="relative p-[1px] overflow-hidden rounded-full
                      bg-gradient-to-r from-rose-200 via-rose-400 to-rose-600
                      animate-gradient-x group">
@@ -40,12 +40,12 @@ export default function HeroSection(){
                     </MotionDiv>
             
                 <MotionH1
-                variants={itemVariants}
+                variants={itemVariants as any}
                 className="font-bold py-6 text-center">
                 Transform PDFs into {' '}
                     <span className="relative inline-block">
                         <MotionSpan
-                        whileHover={buttonnVariants}
+                        whileHover={buttonnVariants as any}
                         className="relative z-10 px-2"> concise</MotionSpan> 
                             <span className="absolute inset-0 bg-rose-200/50 -rotate-2 rounded-lg
                             transform -skew-y-1 " aria-hidden='true'>
@@ -53,13 +53,13 @@ export default function HeroSection(){
                     </span>{' '}summaries
                 </MotionH1>
                 <MotionH2
-                variants={itemVariants}
+                variants={itemVariants as any}
                 className="text-lg sm:text-xl lg:text-2xl text-center px-4 lg:px-0
                 lg:max-w-4xl text-gray-500
                 ">Get a beautiful reel of the document in seconds</MotionH2>
                 <MotionDiv
-                variants={itemVariants}
-                whileHover={buttonnVariants}
+                variants={itemVariants as any}
+                whileHover={buttonnVariants as any}
                 >
                     <Button
                      variant={'link'}

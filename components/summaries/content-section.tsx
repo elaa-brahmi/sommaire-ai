@@ -37,7 +37,7 @@ const EmojiPoint=({point}:{point:string})=>{
     return(
     
         <MotionDiv 
-        variants={itemVariants}
+        variants={itemVariants as any}
             className="group relative bg-linear-to-br
              from-gray-200/[0.5] to-gray-400/[0.02]
             p-4 rounded-2xl border border-gray-500/10
@@ -64,7 +64,7 @@ const RegularPoint=({point,key}:{point:string,key:string})=>{
     return(
     
         <MotionDiv 
-        variants={itemVariants} 
+        variants={itemVariants as any} 
             className="group relative bg-linear-to-br
              from-gray-200/[0.5] to-gray-400/[0.02]
             p-4 rounded-2xl border border-gray-500/10

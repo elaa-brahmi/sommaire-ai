@@ -94,7 +94,7 @@ export default function Pricing(){
              <div className="py-12 lg:py-24 max-w-5xl mx-auto sm:px-6
         lg:px-8 lg:pt-12">
             <MotionDiv
-            variants={itemVariants}
+            variants={itemVariants as any}
             className="flex items-center justify-center w-full pb-12">
                 <h2 className="uppercase font-bold text-xl mb-8 text-rose-500">Pricing</h2>
             </MotionDiv>

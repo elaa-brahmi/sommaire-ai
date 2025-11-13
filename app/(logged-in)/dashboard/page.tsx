@@ -35,14 +35,14 @@ export default async function DashboardPage(){
                 <div className="flex gap-4 mb-8 justify-between ">
                     <div className="flex flex-col gap-4">
                         <MotionH1
-                            variants={itemVariants}
+                            variants={itemVariants as any}
                             initial="hidden"
                             whileInView="visible"
                             className="text-4xl font-bold tracking-tight bg-linear-to-r from-gray-600 to-gray-900 bg-clip-text text-transparent">
                             Your Summaries
                         </MotionH1>
                         <MotionP
-                            variants={itemVariants}
+                            variants={itemVariants as any}
                             initial="hidden"
                             animate="visible"
                             className="text-gray-500">
@@ -50,7 +50,7 @@ export default async function DashboardPage(){
                         </MotionP>
                     </div>
                     {!hasReachedLimit &&( <MotionDiv
-                        variants={itemVariants}
+                        variants={itemVariants as any}
                         initial="hidden"
                         animate="visible"
                         whileHover={{ scale:1.05 }}
@@ -68,7 +68,7 @@ export default async function DashboardPage(){
                     </MotionDiv>)}
                 </div>
               {hasReachedLimit &&(  <MotionDiv
-                    variants={itemVariants}
+                    variants={itemVariants as any}
                     initial="hidden"
                     animate="visible"
                     whileHover={{ scale:1.05 }}
