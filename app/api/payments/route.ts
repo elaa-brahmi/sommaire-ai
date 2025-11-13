@@ -1,4 +1,5 @@
 import {NextRequest,NextResponse} from 'next/server'
+import { Buffer } from 'buffer';
 import Stripe from 'stripe';
 import {handleCheckoutSessionCompleted,handleSubscriptionDeleted} from '@/lib/payments'
 
@@ -19,8 +20,22 @@ export const POST = async (req: NextRequest) => {
         }, { status: 500 });
     }
 
-    const payload = await req.text();
+    // Read raw body as ArrayBuffer and convert to Buffer to preserve
+    // exact bytes for Stripe signature verification. Pass Buffer directly
+    // to stripe.webhooks.constructEvent (avoid string conversions).
+    const arr = await req.arrayBuffer();
+    const payload = Buffer.from(arr);
     const sig = req.headers.get('stripe-signature');
+
+    // Helpful debug info when developing locally (trimmed signature)
+    console.log('Incoming Stripe signature header:', sig ? sig.slice(0, 80) : 'none');
+    console.log('Incoming payload length (bytes):', payload.length);
+    // Show a short payload preview to verify formatting (no more than 200 chars)
+    try {
+        console.log('Payload preview:', payload.toString('utf8', 0, 200));
+    } catch (e) {
+        console.log('Payload preview unavailable');
+    }
     
     if (!sig) {
         return NextResponse.json({
@@ -47,6 +62,7 @@ export const POST = async (req: NextRequest) => {
         
         // Process the event after response is sent
         setTimeout(() => {
+            
             processEvent(event).catch(error => {
                 console.error('Error processing webhook event:', error);
             });
@@ -67,6 +83,7 @@ async function processEvent(event: Stripe.Event) {
         switch(event.type) {
             
             case 'checkout.session.completed':
+                console.log('Checkout session completed:', event.data.object.id);
                 const sessionId = event.data.object.id;
                 const session = await stripe.checkout.sessions.retrieve(sessionId, {
                     expand: ['line_items']

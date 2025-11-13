@@ -19,7 +19,7 @@ export async function handleCheckoutSessionCompleted({session,stripe}:{session:S
 
         try {
             // First create/update the user
-            await createOrUpdateUser({
+            const createUserResponse = await createOrUpdateUser({
                 sql,
                 email: email as string,
                 full_name: name as string,
@@ -27,6 +27,7 @@ export async function handleCheckoutSessionCompleted({session,stripe}:{session:S
                 price_id: price_id as string,
                 status: 'active'
             });
+            console.log('User created/updated successfully:', createUserResponse);
 
             // Then create the payment
             await createPayment({
@@ -35,6 +36,7 @@ export async function handleCheckoutSessionCompleted({session,stripe}:{session:S
                 price_id: price_id as string,
                 user_email: email as string
             });
+            console.log('Payment created successfully');
         } catch (error) {
             console.error('Error processing payment:', error);
             throw error;
