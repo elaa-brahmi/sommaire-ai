@@ -43,39 +43,31 @@ export const POST = async (req: NextRequest) => {
         }, { status: 400 });
     }
 
-    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    let event;
     
-    try {
-        // Verify the webhook signature
-        const event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-        
-        // Create response
-        const response = new NextResponse(JSON.stringify({ status: 'success' }), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        // Send response immediately
-        response.headers.set('Connection', 'close');
-        
-        // Process the event after response is sent
-        setTimeout(() => {
-            
-            processEvent(event).catch(error => {
-                console.error('Error processing webhook event:', error);
-            });
-        }, 0);
-
-        return response;
+  try {
+        event = stripe.webhooks.constructEvent(
+            payload,
+            sig,
+            process.env.STRIPE_WEBHOOK_SECRET!
+        );
     } catch (err) {
-        console.error('Webhook error:', err);
-        return NextResponse.json({
-            error: 'Failed to process webhook',
-            details: err instanceof Error ? err.message : 'Unknown error'
-        }, { status: 400 });
+        return NextResponse.json(
+            { error: "Invalid signature" },
+            { status: 400 }
+        );
     }
+
+    // IMPORTANT: Process BEFORE returning
+    try {
+        await processEvent(event);
+    } catch (err) {
+        console.error("Webhook handler failed:", err);
+        return NextResponse.json({ error: "Handler failed" }, { status: 500 });
+    }
+
+    return NextResponse.json({ received: true }, { status: 200 });
+
 }
 
 async function processEvent(event: Stripe.Event) {
