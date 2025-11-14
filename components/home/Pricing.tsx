@@ -28,7 +28,7 @@ const listVariants={
 
 const PricingCard=({name,price,description,items,id,paymentLink}:PriceType)=>{
     if (!paymentLink) {
-        return null; // Don't render the card if there's no payment link
+        return null; 
     }
     return(
         <MotionDiv
