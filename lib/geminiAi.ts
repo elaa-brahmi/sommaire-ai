@@ -76,11 +76,11 @@ export const generateSummaryFromGemini = async (pdfText: string) => {
             console.log(`✅ Using model: ${selectedModel}`);
         }
 
-        const model = genAI.getGenerativeModel({ 
+        const model = genAI.getGenerativeModel({
             model: selectedModel,
             generationConfig: {
                 temperature: 0.7,
-                maxOutputTokens: 1500,
+                maxOutputTokens: 4000,
             },
         });
         
@@ -98,6 +98,7 @@ export const generateSummaryFromGemini = async (pdfText: string) => {
         
         const result = await model.generateContent(prompt);
         const response = await result.response;
+        console.log("Raw response from Gemini API:", response);
         
         if (!response.text()) {
             throw new Error('Empty response from Gemini API');
